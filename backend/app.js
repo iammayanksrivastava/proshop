@@ -8,7 +8,8 @@ const bodyParser    = require('body-parser');
 const mongoose      = require('mongoose');
 const connectDB     = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
-
+const notFound      =   require('./middleware/error').notFound;
+const errorHandler  = require('./middleware/error').errorHandler;
 
 // dotenv.config() 
 
@@ -35,6 +36,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/products', productRoutes);
+app.use(notFound);
+app.use(errorHandler);
 
 const index = require('./routes/index');
 app.use('/', index);
